@@ -1,0 +1,93 @@
+= Websocket Echo Server in Python
+
+
+
+[source%nowrap,bash]
+----
+docker build -f Dockerfile -t websocket-echo-server-python .
+
+docker run -i --rm -p 8080:8080 websocket-echo-server-python
+----
+
+
+:toc:
+:toclevels: 10
+
+1. Start the <<server,Server>> (see below for multiple options).
+2. Connect with a <<client,Client>> (in another shell).
+
+== Server [[server]]
+
+=== Run on localhost in Python
+
+Python 3 required.
+
+[source%nowrap,bash]
+----
+python3 -m pip install -r requirements.txt
+
+python3 wsecho.py
+----
+
+=== Run on localhost in Docker
+
+[source%nowrap,bash]
+----
+docker build -f Dockerfile -t websocket-echo-server-python .
+
+docker run -i --rm -p 8080:8080 websocket-echo-server-python
+----
+
+=== Run on Google Cloud Run [[server-cloudrun]]
+
+image:https://deploy.cloud.run/button.svg[Run on Google Cloud,link=https://deploy.cloud.run]
+
+Note the URL displayed after `Your application is now live here`.
+
+== Client [[client]]
+
+=== Install Python WebSocket Client
+
+Python `pip` required to install https://pypi.org/project/websocket_client/[websocket_client].
+
+[source%nowrap,bash]
+----
+pip install websocket-client
+----
+
+=== Connect with Python WebSocket Client
+
+[source%nowrap,bash]
+----
+# Server running on localhost:
+
+wsdump.py ws://127.0.0.1:8080/websocket
+# Now enter texts and press RETURN.
+# The texts are echoed by the server.
+
+
+# Server running on Google Cloud Run:
+
+wsdump.py wss://websocket-echo-server-python-xxxxxxxxxx-xx.x.run.app/websocket
+# Use the URL that was displayed in Cloud Shell when deploying the server app to Cloud Run.
+----
+
+=== Dart WebSocket Client
+
+https://dart.dev/get-dart[Dart] required.
+
+Clone https://github.com/buehren/websocket-client-dart[websocket-client-dart]
+
+[source%nowrap,bash]
+----
+dart pub get
+
+# echo.websocket.org is used by default:
+dart run wsclient.dart
+
+# Server running on localhost:
+dart run wsclient.dart --url ws://localhost:8080/websocket
+
+# Server running on Google Cloud Run:
+dart run wsclient.dart --url wss://websocket-echo-server-python-xxxxxxxxxx-xx.x.run.app/websocket
+----
