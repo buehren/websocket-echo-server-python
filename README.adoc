@@ -58,7 +58,7 @@ python3 wsdump.py ws://127.0.0.1:8080/websocket
 # Server running on Google Cloud Run:
 
 python3 wsdump.py wss://websocket-echo-server-python-xxxxxxxxxx-xx.x.run.app/websocket
-# Use the URL that was displayed in Cloud Shell when deploying the server app to Cloud Run.
+# Use the hostname that was displayed in Cloud Shell when deploying the server app to Cloud Run.
 ----
 
 === Dart WebSocket Client
